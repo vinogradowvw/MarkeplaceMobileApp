@@ -1,4 +1,4 @@
-package com.demo.marketplacemobileapp.AboutMeComponents
+package com.demo.marketplacemobileapp.aboutMeComponents
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
