@@ -191,8 +191,9 @@ fun cartTotal(cartItems: List<CartItem>) {
 @Composable
 fun checkoutButton() {
     Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center
+        modifier = Modifier.fillMaxWidth().height(80.dp),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Button(onClick = {}, Modifier.fillMaxWidth(0.6f).height(70.dp)) {
             Text(text = "Checkout", fontSize = 40.sp)

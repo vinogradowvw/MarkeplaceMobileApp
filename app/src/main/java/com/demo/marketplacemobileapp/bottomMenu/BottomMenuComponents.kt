@@ -1,4 +1,4 @@
-package com.demo.marketplacemobileapp.bottomMenuComponents
+package com.demo.marketplacemobileapp.bottomMenu
 
 import android.content.Intent
 import androidx.activity.ComponentActivity
@@ -9,6 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,6 +20,7 @@ import com.demo.marketplacemobileapp.CartActivity
 
 @Composable
 fun BottomMenu(activity: ComponentActivity) {
+    HorizontalDivider(color = Color.Gray, thickness = 1.dp)
     Row(
         modifier = Modifier
             .fillMaxWidth()

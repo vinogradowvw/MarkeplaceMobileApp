@@ -7,9 +7,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.ui.Modifier
-import com.demo.marketplacemobileapp.aboutMeComponents.AboutMeHeader
-import com.demo.marketplacemobileapp.itemComponents.ItemPreviewList
-import com.demo.marketplacemobileapp.bottomMenuComponents.BottomMenu
+import com.demo.marketplacemobileapp.aboutMe.AboutMeHeader
+import com.demo.marketplacemobileapp.postItem.ItemPreviewList
+import com.demo.marketplacemobileapp.bottomMenu.BottomMenu
 
 class AboutMeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
