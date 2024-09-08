@@ -48,6 +48,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.demo.marketplacemobileapp.R
+import com.demo.marketplacemobileapp.config.config
+import com.demo.marketplacemobileapp.dataClasses.Post
+import com.demo.marketplacemobileapp.requests.getPostById
+import okhttp3.Request
 import kotlin.random.Random
 
 
@@ -67,16 +71,14 @@ fun ItemPreview(title: String, price: Float, imageUrl: String = "null", drawable
     }
 }
 
+
 @Composable
-fun ItemPreviewList(productIds: List<Int> = listOf(1,2,3,4,5,6,7,8,9,10)) {
+fun ItemPreviewList(viewModel: PostViewModel, postIds: List<Long> = listOf(1,2,3,4,5,6,7,8,9,10)) {
 
     val stateRowX = rememberLazyListState()
     val stateRowY = rememberLazyListState()
 
     val scope = rememberCoroutineScope()
-
-    var images = listOf(R.drawable.image1, R.drawable.image2)
-
 
     LaunchedEffect(stateRowX.firstVisibleItemIndex, stateRowX.firstVisibleItemScrollOffset) {
         if (!stateRowY.isScrollInProgress) {
@@ -96,16 +98,23 @@ fun ItemPreviewList(productIds: List<Int> = listOf(1,2,3,4,5,6,7,8,9,10)) {
         }
     }
     Row(modifier = Modifier.fillMaxWidth()) {
+
+        val evenPosts = postIds.filterIndexed { index, _ -> index % 2 == 0 }
+        val oddPosts = postIds.filterIndexed { index, _ -> index % 2 != 0 }
+
         LazyColumn(
             modifier = Modifier
                 .weight(1f),
             state = stateRowX
         ) {
-            items(productIds.size) { item ->
+            items(evenPosts.size) { i ->
+
+                val postData = getPostById(evenPosts[i])
+
                 ItemPreview(
-                    title = "Some item",
-                    price = 100.99f,
-                    drawableResId = images[Random.nextInt(2)]
+                    title = post.name,
+                    price = post.price,
+                    drawableResId = post.image
                 )
             }
         }
@@ -117,9 +126,9 @@ fun ItemPreviewList(productIds: List<Int> = listOf(1,2,3,4,5,6,7,8,9,10)) {
         ) {
             items(productIds.size) { item ->
                 ItemPreview(
-                    title = "Some item",
-                    price = 100.99f,
-                    drawableResId = images[Random.nextInt(2)]
+                    title = post.name,
+                    price = post.price,
+                    drawableResId = post.image
                 )
             }
         }

@@ -51,6 +51,8 @@ android {
 
 dependencies {
     val nav_version = "2.7.7"
+    implementation("com.google.code.gson:gson:2.8.5")
+    implementation("com.squareup.okhttp3:okhttp:4.9.3")
     implementation("com.google.accompanist:accompanist-flowlayout:0.30.1")
     implementation("com.google.accompanist:accompanist-pager:0.30.1")
     implementation("androidx.navigation:navigation-compose:$nav_version")
