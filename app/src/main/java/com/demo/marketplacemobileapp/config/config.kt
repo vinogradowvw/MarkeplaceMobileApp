@@ -1,5 +1,5 @@
 package com.demo.marketplacemobileapp.config
 
 object config {
-    var BASE_URL = "http://localhost:8080"
+    var BASE_URL = "http://10.0.2.2:8080"
 }

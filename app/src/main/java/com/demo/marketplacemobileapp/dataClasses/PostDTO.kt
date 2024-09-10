@@ -5,7 +5,7 @@ data class PostDTO(
     val name: String,
     val views: Long,
     val description: String,
-    val product: Product,
+    val product: Long,
     val user: Long,
     val likedUsers: List<Long>,
     val tags: List<Long>,

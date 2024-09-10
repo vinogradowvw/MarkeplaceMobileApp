@@ -50,6 +50,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.runtime.livedata)
     val nav_version = "2.7.7"
     implementation("com.google.code.gson:gson:2.8.5")
     implementation("com.squareup.okhttp3:okhttp:4.9.3")

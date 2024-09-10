@@ -5,10 +5,10 @@ data class Post(
     val name: String,
     val views: Long,
     val description: String,
-    val product: Product,
-    val user: User,
-    val likedUsers: List<User>,
-    val tags: List<Tag>,
-    val images: List<ImageClass>,
-    val reviews: List<Long>
+    var product: Product? = null,
+    val user: User? = null,
+    val likedUsers: List<User>? = null,
+    val tags: List<Tag>? = null,
+    val images: List<Long>,
+    val reviews: List<Long>? = null
 )

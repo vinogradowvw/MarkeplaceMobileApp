@@ -1,7 +1,6 @@
 package com.demo.marketplacemobileapp.postItem
 
-import android.content.Intent
-import android.widget.Space
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -36,6 +35,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,16 +48,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.demo.marketplacemobileapp.R
 import com.demo.marketplacemobileapp.config.config
 import com.demo.marketplacemobileapp.dataClasses.Post
-import com.demo.marketplacemobileapp.requests.getPostById
-import okhttp3.Request
-import kotlin.random.Random
+import com.demo.marketplacemobileapp.viewModel.PostViewModel
 
 
 @Composable
-fun ItemPreview(title: String, price: Float, imageUrl: String = "null", drawableResId: Int = 1) {
+fun ItemPreview(title: String, price: Float, imageUrl: String = "null", drawableResId: Long = 1) {
     Column (modifier = Modifier
         .fillMaxWidth()
         .fillMaxHeight(0.3f)
@@ -66,7 +64,7 @@ fun ItemPreview(title: String, price: Float, imageUrl: String = "null", drawable
             color = Color.Gray,
             shape = RoundedCornerShape(16.dp)
         )) {
-        ItemPreviewPictureTest(drawableResId = drawableResId, title)
+        ItemPreviewPicture(drawableResId, title="image")
         ItemPreviewInfo(title, price)
     }
 }
@@ -99,8 +97,8 @@ fun ItemPreviewList(viewModel: PostViewModel, postIds: List<Long> = listOf(1,2,3
     }
     Row(modifier = Modifier.fillMaxWidth()) {
 
-        val evenPosts = postIds.filterIndexed { index, _ -> index % 2 == 0 }
-        val oddPosts = postIds.filterIndexed { index, _ -> index % 2 != 0 }
+        val evenPosts: List<Long> = postIds.filterIndexed { index, _ -> index % 2 == 0 }
+        val oddPosts: List<Long> = postIds.filterIndexed { index, _ -> index % 2 != 0 }
 
         LazyColumn(
             modifier = Modifier
@@ -109,13 +107,14 @@ fun ItemPreviewList(viewModel: PostViewModel, postIds: List<Long> = listOf(1,2,3
         ) {
             items(evenPosts.size) { i ->
 
-                val postData = getPostById(evenPosts[i])
-
-                ItemPreview(
-                    title = post.name,
-                    price = post.price,
-                    drawableResId = post.image
-                )
+                val post = viewModel.getPostById(evenPosts[i])
+                product?.let {
+                    ItemPreview(
+                        title = evenPosts[i].name,
+                        price = it.price,
+                        drawableResId = evenPosts[i].images[1]
+                    )
+                }
             }
         }
 
@@ -124,12 +123,14 @@ fun ItemPreviewList(viewModel: PostViewModel, postIds: List<Long> = listOf(1,2,3
                 .weight(1f),
             state = stateRowY
         ) {
-            items(productIds.size) { item ->
-                ItemPreview(
-                    title = post.name,
-                    price = post.price,
-                    drawableResId = post.image
-                )
+            items(oddPosts.size) { i ->
+                oddPosts[i].product?.let {
+                    ItemPreview(
+                        title = oddPosts[i].name,
+                        price = it.price,
+                        drawableResId = oddPosts[i].images[i]
+                    )
+                }
             }
         }
     }
@@ -157,7 +158,8 @@ private fun ItemPreviewPictureTest(drawableResId: Int, title: String) {
         .wrapContentHeight()) {
         val painter = painterResource(id = drawableResId)
 
-        val aspectRatio = painter.intrinsicSize.width / painter.intrinsicSize.height
+        val ratio =
+            painter.intrinsicSize.width / painter.intrinsicSize.height
 
         Image(
             painter = painter,
@@ -165,22 +167,22 @@ private fun ItemPreviewPictureTest(drawableResId: Int, title: String) {
             contentScale = ContentScale.FillWidth,
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(aspectRatio)
+                .aspectRatio(ratio)
                 .clip(RoundedCornerShape(16.dp))
         )
     }
 }
 
 @Composable
-private fun ItemPreviewPicture(imageUrl: String, title: String) {
+private fun ItemPreviewPicture(imageId: Long, title: String) {
     Box(modifier = Modifier
         .fillMaxWidth()
         .wrapContentHeight()) {
-        AsyncImage(model = imageUrl, contentDescription = title,
+        AsyncImage(model = "${config.BASE_URL}/image/${imageId}", contentDescription = title,
             contentScale = ContentScale.FillWidth,
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(1f),
+                .clip(RoundedCornerShape(16.dp)),
             onSuccess = { state ->
                 val ratio =
                     state.painter.intrinsicSize.width / state.painter.intrinsicSize.height;

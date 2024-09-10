@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.demo.marketplacemobileapp.aboutMe.AboutMeHeader
 import com.demo.marketplacemobileapp.postItem.ItemPreviewList
 import com.demo.marketplacemobileapp.bottomMenu.BottomMenu
-import com.demo.marketplacemobileapp.postItem.PostViewModel
+import com.demo.marketplacemobileapp.viewModel.PostViewModel
 
 class AboutMeActivity : ComponentActivity() {
 
