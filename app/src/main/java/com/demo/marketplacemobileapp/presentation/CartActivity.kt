@@ -10,11 +10,11 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.demo.marketplacemobileapp.presentation.bottomMenu.BottomMenu
-import com.demo.marketplacemobileapp.presentation.cart.cartItems
-import com.demo.marketplacemobileapp.presentation.cart.cartTotal
-import com.demo.marketplacemobileapp.presentation.cart.checkoutButton
-import com.demo.marketplacemobileapp.presentation.cart.deliveryOptions
+import com.demo.marketplacemobileapp.presentation.ui.composable.bottomMenu.BottomMenu
+import com.demo.marketplacemobileapp.presentation.ui.composable.cart.cartItems
+import com.demo.marketplacemobileapp.presentation.ui.composable.cart.cartTotal
+import com.demo.marketplacemobileapp.presentation.ui.composable.cart.checkoutButton
+import com.demo.marketplacemobileapp.presentation.ui.composable.cart.deliveryOptions
 import com.demo.marketplacemobileapp.domain.model.CartItem
 
 class CartActivity : ComponentActivity() {

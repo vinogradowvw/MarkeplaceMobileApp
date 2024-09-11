@@ -1,4 +1,4 @@
-package com.demo.marketplacemobileapp.presentation.posts
+package com.demo.marketplacemobileapp.presentation.ui.composable.posts
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -46,7 +46,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.demo.marketplacemobileapp.config.config
-import com.demo.marketplacemobileapp.viewModel.PostViewModel
 
 
 @Composable

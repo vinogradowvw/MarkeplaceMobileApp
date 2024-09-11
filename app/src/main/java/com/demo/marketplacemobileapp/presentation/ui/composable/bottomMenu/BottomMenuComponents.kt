@@ -1,4 +1,4 @@
-package com.demo.marketplacemobileapp.presentation.bottomMenu
+package com.demo.marketplacemobileapp.presentation.ui.composable.bottomMenu
 
 import android.content.Intent
 import androidx.activity.ComponentActivity

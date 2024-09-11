@@ -8,10 +8,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
-import com.demo.marketplacemobileapp.presentation.aboutMe.AboutMeHeader
-import com.demo.marketplacemobileapp.presentation.posts.ItemPreviewList
-import com.demo.marketplacemobileapp.presentation.bottomMenu.BottomMenu
-import com.demo.marketplacemobileapp.viewModel.PostViewModel
+import com.demo.marketplacemobileapp.presentation.ui.composable.aboutMe.AboutMeHeader
+import com.demo.marketplacemobileapp.presentation.ui.composable.posts.ItemPreviewList
+import com.demo.marketplacemobileapp.presentation.ui.composable.bottomMenu.BottomMenu
 
 class AboutMeActivity : ComponentActivity() {
 

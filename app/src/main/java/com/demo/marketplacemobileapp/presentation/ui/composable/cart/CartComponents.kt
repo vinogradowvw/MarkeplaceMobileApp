@@ -1,4 +1,4 @@
-package com.demo.marketplacemobileapp.presentation.cart
+package com.demo.marketplacemobileapp.presentation.ui.composable.cart
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
