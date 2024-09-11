@@ -2,6 +2,7 @@ package com.demo.marketplacemobileapp.presentation.viewModel.post
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.ViewModel
 import com.demo.marketplacemobileapp.common.Resource
 import com.demo.marketplacemobileapp.domain.useCase.post.getPost.GetPostByIdUseCase
 import com.demo.marketplacemobileapp.presentation.state.PostState
@@ -13,7 +14,7 @@ import javax.inject.Inject
 class PostViewModel @Inject constructor(
     private val getPostByIdUseCase: GetPostByIdUseCase,
     val id: Long
-) {
+) : ViewModel(){
     private val _state = mutableStateOf(PostState())
     val state: State<PostState> = _state
 
