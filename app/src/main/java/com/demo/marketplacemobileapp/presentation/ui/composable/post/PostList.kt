@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.demo.marketplacemobileapp.config.config
 import com.demo.marketplacemobileapp.domain.model.Post
-import com.demo.marketplacemobileapp.presentation.viewModel.post.PostViewModel
 
 @Composable
 fun PostList(posts: List<Post>) {
@@ -65,15 +64,11 @@ fun PostList(posts: List<Post>) {
             state = stateRowX
         ) {
             items(evenPosts.size) { i ->
-
-                val post = viewModel.getPostById(evenPosts[i])
-                product?.let {
-                    PostListItem(
-                        title = evenPosts[i].name,
-                        price = it.price,
-                        drawableResId = evenPosts[i].images[1]
-                    )
-                }
+                PostListItem(
+                    title = evenPosts[i].name,
+                    price = evenPosts[i].product?.price ?: 11111f,
+                    drawableResId = evenPosts[i].images[1]
+                )
             }
         }
 
@@ -83,13 +78,11 @@ fun PostList(posts: List<Post>) {
             state = stateRowY
         ) {
             items(oddPosts.size) { i ->
-                oddPosts[i].product?.let {
-                    PostListItem(
-                        title = oddPosts[i].name,
-                        price = it.price,
-                        drawableResId = oddPosts[i].images[i]
-                    )
-                }
+                PostListItem(
+                    title = oddPosts[i].name,
+                    price = oddPosts[i].product?.price ?: 11111f,
+                    drawableResId = oddPosts[i].images[1]
+                )
             }
         }
     }

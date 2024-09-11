@@ -1,4 +1,4 @@
-package com.demo.marketplacemobileapp.domain.useCase.getPost
+package com.demo.marketplacemobileapp.domain.useCase.post.getPost
 
 import com.demo.marketplacemobileapp.common.Resource
 import com.demo.marketplacemobileapp.data.remote.dto.toEntity

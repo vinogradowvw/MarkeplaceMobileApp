@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.demo.marketplacemobileapp.common.Resource
-import com.demo.marketplacemobileapp.domain.useCase.getPostList.GetPostListUseCase
+import com.demo.marketplacemobileapp.domain.useCase.post.getPostList.GetPostListUseCase
 import com.demo.marketplacemobileapp.presentation.state.PostListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn

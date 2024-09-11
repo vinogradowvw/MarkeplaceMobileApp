@@ -3,7 +3,7 @@ package com.demo.marketplacemobileapp.presentation.viewModel.post
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import com.demo.marketplacemobileapp.common.Resource
-import com.demo.marketplacemobileapp.domain.useCase.getPost.GetPostByIdUseCase
+import com.demo.marketplacemobileapp.domain.useCase.post.getPost.GetPostByIdUseCase
 import com.demo.marketplacemobileapp.presentation.state.PostState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.onEach
