@@ -14,8 +14,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.demo.marketplacemobileapp.R
 import com.demo.marketplacemobileapp.presentation.ui.composable.bottomMenu.BottomMenu
-import com.demo.marketplacemobileapp.presentation.ui.composable.posts.ItemDetailedImages
-import com.demo.marketplacemobileapp.presentation.ui.composable.posts.ProductInfoDetailed
+import com.demo.marketplacemobileapp.presentation.ui.composable.post.ItemDetailedImages
+import com.demo.marketplacemobileapp.presentation.ui.composable.post.ProductInfoDetailed
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

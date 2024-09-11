@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
 import com.demo.marketplacemobileapp.presentation.ui.composable.aboutMe.AboutMeHeader
-import com.demo.marketplacemobileapp.presentation.ui.composable.posts.ItemPreviewList
+import com.demo.marketplacemobileapp.presentation.ui.composable.post.PostList
 import com.demo.marketplacemobileapp.presentation.ui.composable.bottomMenu.BottomMenu
 
 class AboutMeActivity : ComponentActivity() {
@@ -26,7 +26,7 @@ class AboutMeActivity : ComponentActivity() {
             Column {
                 Column (modifier = Modifier.fillMaxWidth().weight(1f)) {
                     AboutMeHeader("Sample User", "Sample Location")
-                    ItemPreviewList(viewModel = postViewModel)
+                    PostList(viewModel = postViewModel)
                 }
                 BottomMenu(this@AboutMeActivity)
             }
