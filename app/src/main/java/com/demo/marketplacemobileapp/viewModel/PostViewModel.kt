@@ -2,11 +2,11 @@ package com.demo.marketplacemobileapp.viewModel
 
 import androidx.lifecycle.ViewModel
 import com.demo.marketplacemobileapp.config.config
-import com.demo.marketplacemobileapp.dataClasses.Post
-import com.demo.marketplacemobileapp.dataClasses.PostConverter
-import com.demo.marketplacemobileapp.dataClasses.PostDTO
-import com.demo.marketplacemobileapp.requests.HTTPClient
-import com.demo.marketplacemobileapp.requests.getProductById
+import com.demo.marketplacemobileapp.domain.model.Post
+import com.demo.marketplacemobileapp.data.remote.dto.converter.PostConverter
+import com.demo.marketplacemobileapp.data.remote.dto.PostDTO
+import com.demo.marketplacemobileapp.data.remote.requests.HTTPClient
+import com.demo.marketplacemobileapp.data.remote.requests.getProductById
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
