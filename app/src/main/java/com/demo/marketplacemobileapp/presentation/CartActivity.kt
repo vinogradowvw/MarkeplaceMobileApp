@@ -16,7 +16,9 @@ import com.demo.marketplacemobileapp.presentation.ui.composable.cart.cartTotal
 import com.demo.marketplacemobileapp.presentation.ui.composable.cart.checkoutButton
 import com.demo.marketplacemobileapp.presentation.ui.composable.cart.deliveryOptions
 import com.demo.marketplacemobileapp.domain.model.CartItem
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CartActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

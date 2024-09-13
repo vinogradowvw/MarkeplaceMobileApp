@@ -13,10 +13,17 @@ import javax.inject.Inject
 @HiltViewModel
 class PostViewModel @Inject constructor(
     private val getPostByIdUseCase: GetPostByIdUseCase,
-    val id: Long
 ) : ViewModel(){
     private val _state = mutableStateOf(PostState())
     val state: State<PostState> = _state
+
+    var id: Long
+        get() {
+            return id
+        }
+        set(value) {
+            this.id = value
+        }
 
     init {
         getPostById(id)

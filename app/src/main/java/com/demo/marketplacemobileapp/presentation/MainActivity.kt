@@ -16,7 +16,9 @@ import com.demo.marketplacemobileapp.R
 import com.demo.marketplacemobileapp.presentation.ui.composable.bottomMenu.BottomMenu
 import com.demo.marketplacemobileapp.presentation.ui.composable.post.ItemDetailedImages
 import com.demo.marketplacemobileapp.presentation.ui.composable.post.ProductInfoDetailed
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

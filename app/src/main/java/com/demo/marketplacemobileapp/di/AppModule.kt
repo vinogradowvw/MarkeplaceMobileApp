@@ -47,7 +47,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun procideProductRepository(productAPI: ProductAPI): ProductRepository {
+    fun provideProductRepository(productAPI: ProductAPI): ProductRepository {
         return ProductRepositoryImpl(productAPI)
     }
 }

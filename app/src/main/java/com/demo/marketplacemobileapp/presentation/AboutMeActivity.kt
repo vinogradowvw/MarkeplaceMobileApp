@@ -16,7 +16,9 @@ import com.demo.marketplacemobileapp.presentation.ui.composable.aboutMe.AboutMeH
 import com.demo.marketplacemobileapp.presentation.ui.composable.post.PostList
 import com.demo.marketplacemobileapp.presentation.ui.composable.bottomMenu.BottomMenu
 import com.demo.marketplacemobileapp.presentation.viewModel.post.PostListViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AboutMeActivity: ComponentActivity() {
 
     private val postListViewModel: PostListViewModel by viewModels()
