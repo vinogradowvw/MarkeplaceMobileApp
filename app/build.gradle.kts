@@ -56,6 +56,7 @@ android {
     packagingOptions {
         resources {
             excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
 }
@@ -74,10 +75,13 @@ dependencies {
     implementation("androidx.compose.material:material:1.7.1")
     implementation("androidx.compose.ui:ui-tooling-preview:1.7.1")
     implementation("androidx.activity:activity-compose:1.9.2")
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui.graphics)
     testImplementation("junit:junit:4.+")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.7.1")
+    androidTestImplementation(platform(libs.androidx.compose.bom))
     debugImplementation("androidx.compose.ui:ui-tooling:1.7.1")
 
     // Compose dependencies
@@ -95,6 +99,7 @@ dependencies {
 
     // Dagger - Hilt
     implementation("com.google.dagger:hilt-android:2.51.1")
+    debugImplementation(libs.androidx.ui.test.manifest)
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
     kapt("androidx.hilt:hilt-compiler:1.1.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0")

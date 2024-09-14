@@ -10,12 +10,13 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.demo.marketplacemobileapp.presentation.ui.composable.bottomMenu.BottomMenu
+import com.demo.marketplacemobileapp.presentation.ui.composable.common.BottomMenu
 import com.demo.marketplacemobileapp.presentation.ui.composable.cart.cartItems
 import com.demo.marketplacemobileapp.presentation.ui.composable.cart.cartTotal
 import com.demo.marketplacemobileapp.presentation.ui.composable.cart.checkoutButton
 import com.demo.marketplacemobileapp.presentation.ui.composable.cart.deliveryOptions
 import com.demo.marketplacemobileapp.domain.model.CartItem
+import com.demo.marketplacemobileapp.presentation.ui.composable.common.PageHeader
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,6 +27,7 @@ class CartActivity : ComponentActivity() {
         setContent {
             Column {
                 Column (modifier = Modifier.fillMaxWidth().weight(1f)) {
+                    PageHeader("Cart")
                     HorizontalDivider(color = Color.Gray, thickness = 1.dp)
                     cartItems(listOf(1, 2, 3))
                     HorizontalDivider(color = Color.Gray, thickness = 1.dp)

@@ -1,4 +1,4 @@
-package com.demo.marketplacemobileapp.presentation.ui.composable.bottomMenu
+package com.demo.marketplacemobileapp.presentation.ui.composable.common
 
 import android.content.Intent
 import androidx.activity.ComponentActivity
@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.demo.marketplacemobileapp.presentation.AboutMeActivity
 import com.demo.marketplacemobileapp.presentation.CartActivity
+import com.demo.marketplacemobileapp.presentation.ProductSearchActivity
 
 @Composable
 fun BottomMenu(activity: ComponentActivity) {
@@ -41,7 +42,8 @@ fun BottomMenu(activity: ComponentActivity) {
         }
 
         IconButton(onClick = {
-
+            val intent = Intent(activity, ProductSearchActivity::class.java)
+            activity.startActivity(intent)
         }) {
             Icon(
                 imageVector = Icons.Filled.Search,
