@@ -34,4 +34,8 @@ class PostViewModel @Inject constructor(
             }
         }.launchIn(viewModelScope)
     }
+
+    fun addProductToCart() {
+
+    }
 }

@@ -13,8 +13,8 @@ interface CartItemDAO {
     @Insert
     suspend fun addToCart(cartItem: CartItem)
 
-    @Delete
-    suspend fun deleteItemFromCart(cartItem: CartItem)
+    @Query("DELETE FROM cartitem WHERE id = :itemId")
+    fun deleteItemById(itemId: Long)
 
     @Query("SELECT * FROM cartitem")
     fun getCartItems(): Flow<List<CartItem>>

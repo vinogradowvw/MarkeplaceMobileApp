@@ -1,6 +1,7 @@
 package com.demo.marketplacemobileapp.di
 
 import com.demo.marketplacemobileapp.config.config
+import com.demo.marketplacemobileapp.data.local.dao.CartItemDAO
 import com.demo.marketplacemobileapp.data.remote.requests.PostAPI
 import com.demo.marketplacemobileapp.data.remote.requests.ProductAPI
 import com.demo.marketplacemobileapp.data.repository.PostRepositoryImpl
