@@ -21,7 +21,7 @@ class GetPostListUseCase @Inject constructor(
             emit(Resource.Loading())
             val posts: List<Post> = postRepository.getPostList().map {
                 val post = it.toEntity()
-                Log.i("post", it.toString())
+                Log.i("Product", it.product.toString())
                 post.product = productRepository.getProductById(it.product).toEntity()
                 post
             }

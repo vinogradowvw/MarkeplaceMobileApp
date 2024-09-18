@@ -63,7 +63,7 @@ class ProductSearchActivity : ComponentActivity() {
                         if (postListState.isLoading) {
                             CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
                         }
-                        PostList(postListState.posts)
+                        PostList(postListState.posts, activity = this@ProductSearchActivity)
                     }
                     BottomMenu(this@ProductSearchActivity)
                 }

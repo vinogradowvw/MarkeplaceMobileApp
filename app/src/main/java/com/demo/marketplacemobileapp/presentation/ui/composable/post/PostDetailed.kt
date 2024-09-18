@@ -34,12 +34,24 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import com.demo.marketplacemobileapp.config.config
+import com.demo.marketplacemobileapp.domain.model.Post
+
+
+@Composable
+fun PostDetailed(post: Post) {
+    ItemDetailedImages(imageIds = post.images)
+    HorizontalDivider(color = Color.Gray, thickness = 1.dp)
+    post.product?.let { ProductInfoDetailed(name = post.name, description = post.description, price = it.price, tagNames = post.tags) }
+}
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ItemDetailedImages(imageIds: List<Int>) {
+fun ItemDetailedImages(imageIds: List<Long>) {
     val pagerState = rememberPagerState(pageCount = {
         imageIds.size
     })
@@ -53,8 +65,7 @@ fun ItemDetailedImages(imageIds: List<Int>) {
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
-            Image(
-                painter = painterResource(id = imageIds[page]),
+            AsyncImage(model = "${config.BASE_URL}/image/${imageIds[page]}",
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
@@ -65,7 +76,7 @@ fun ItemDetailedImages(imageIds: List<Int>) {
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun ProductInfoDetailed(name: String, price: Float, description: String, tagNames: List<String>) {
+fun ProductInfoDetailed(name: String, price: Float, description: String, tagNames: List<String>? = null) {
     Spacer(modifier = Modifier.height(5.dp))
     Column (
         modifier = Modifier
@@ -76,8 +87,11 @@ fun ProductInfoDetailed(name: String, price: Float, description: String, tagName
             verticalAlignment = Alignment.CenterVertically) {
             Text(text = name,
                 textAlign = TextAlign.Start,
-                fontSize = 30.sp)
-            Spacer(modifier = Modifier.weight(1f))
+                fontSize = 30.sp,
+                modifier = Modifier.weight(1f),
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis)
+            Spacer(modifier = Modifier.weight(0.1f))
             Row (
                 modifier = Modifier
                     .padding(5.dp),
@@ -105,18 +119,21 @@ fun ProductInfoDetailed(name: String, price: Float, description: String, tagName
         Spacer(modifier = Modifier.height(10.dp))
         HorizontalDivider(color = Color.Gray, thickness = 1.dp)
         Spacer(modifier = Modifier.height(10.dp))
-        FlowRow(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            tagNames.forEach { tag ->
-                Text(text = tag,
-                    Modifier
-                        .clip(RoundedCornerShape(50))
-                        .background(color = Color.LightGray)
-                        .padding(5.dp),
-                    fontSize = 15.sp)
-                Spacer(modifier = Modifier.width(3.dp))
+        if (tagNames != null) {
+            FlowRow(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                tagNames.forEach { tag ->
+                    Text(text = tag,
+                        Modifier
+                            .clip(RoundedCornerShape(50))
+                            .background(color = Color.LightGray)
+                            .padding(5.dp),
+                        fontSize = 15.sp)
+                    Spacer(modifier = Modifier.width(3.dp))
+                }
             }
         }
+
     }
 }

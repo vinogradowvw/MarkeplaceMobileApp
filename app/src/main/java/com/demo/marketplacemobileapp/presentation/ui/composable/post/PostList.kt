@@ -1,7 +1,10 @@
 package com.demo.marketplacemobileapp.presentation.ui.composable.post
 
+import android.app.Activity
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,9 +30,11 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.demo.marketplacemobileapp.config.config
 import com.demo.marketplacemobileapp.domain.model.Post
+import com.demo.marketplacemobileapp.presentation.AboutMeActivity
+import com.demo.marketplacemobileapp.presentation.PostActivity
 
 @Composable
-fun PostList(posts: List<Post>) {
+fun PostList(posts: List<Post>, activity: Activity) {
 
     val stateRowX = rememberLazyListState()
     val stateRowY = rememberLazyListState()
@@ -67,7 +72,9 @@ fun PostList(posts: List<Post>) {
                 PostListItem(
                     title = evenPosts[i].name,
                     price = evenPosts[i].product?.price ?: 11111f,
-                    drawableResId = evenPosts[i].images[1]
+                    drawableResId = evenPosts[i].images[0],
+                    postId = evenPosts[i].id,
+                    activity = activity
                 )
             }
         }
@@ -81,7 +88,9 @@ fun PostList(posts: List<Post>) {
                 PostListItem(
                     title = oddPosts[i].name,
                     price = oddPosts[i].product?.price ?: 11111f,
-                    drawableResId = oddPosts[i].images[1]
+                    drawableResId = oddPosts[i].images[0],
+                    postId = oddPosts[i].id,
+                    activity = activity
                 )
             }
         }
@@ -90,7 +99,8 @@ fun PostList(posts: List<Post>) {
 
 
 @Composable
-fun PostListItem(title: String, price: Float, imageUrl: String = "null", drawableResId: Long = 1) {
+fun PostListItem(postId: Long, title: String, price: Float,
+                 drawableResId: Long = 1, activity: Activity) {
     Column (modifier = Modifier
         .fillMaxWidth()
         .fillMaxHeight(0.3f)
@@ -99,7 +109,12 @@ fun PostListItem(title: String, price: Float, imageUrl: String = "null", drawabl
             width = 0.75.dp,
             color = Color.Gray,
             shape = RoundedCornerShape(16.dp)
-        )) {
+        ).clickable {
+            val intent = Intent(activity, PostActivity::class.java).apply {
+                putExtra("POST_ID", postId)
+            }
+            activity.startActivity(intent)
+        }) {
         PostListItemImage(drawableResId, title="image")
         PostListItemInfo(title, price)
     }
@@ -117,7 +132,6 @@ private fun PostListItemInfo(title: String, price: Float) {
             modifier = Modifier.weight(1f))
 
         Text(text = "$$price",
-            modifier = Modifier.weight(1f),
             textAlign = TextAlign.End)
     }
 }
@@ -148,7 +162,8 @@ private fun PostListItemImage_(drawableResId: Int, title: String) {
 private fun PostListItemImage(imageId: Long, title: String) {
     Box(modifier = Modifier
         .fillMaxWidth()
-        .wrapContentHeight()) {
+        .wrapContentHeight()
+        ) {
         AsyncImage(model = "${config.BASE_URL}/image/${imageId}", contentDescription = title,
             contentScale = ContentScale.FillWidth,
             modifier = Modifier

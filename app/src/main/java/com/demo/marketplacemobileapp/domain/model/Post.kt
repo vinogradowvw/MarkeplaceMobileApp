@@ -8,7 +8,7 @@ data class Post(
     var product: Product? = null,
     val user: User? = null,
     val likedUsers: List<User>? = null,
-    val tags: List<Tag>? = null,
+    val tags: List<String>? = null,
     val images: List<Long>,
     val reviews: List<Long>? = null
 )
