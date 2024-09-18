@@ -7,13 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.demo.marketplacemobileapp.data.local.dao.CartItemDAO
 import com.demo.marketplacemobileapp.data.local.entity.CartItem
 import com.demo.marketplacemobileapp.presentation.state.CartItemsState
-import dagger.hilt.android.lifecycle.HiltViewModel
 
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-@HiltViewModel
 class CartViewModel (
     private val cartItemDAO: CartItemDAO
 ) : ViewModel() {

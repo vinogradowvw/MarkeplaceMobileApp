@@ -1,7 +1,9 @@
 package com.demo.marketplacemobileapp.di
 
+import android.content.Context
 import com.demo.marketplacemobileapp.config.config
 import com.demo.marketplacemobileapp.data.local.dao.CartItemDAO
+import com.demo.marketplacemobileapp.data.local.database.CartItemDatabase
 import com.demo.marketplacemobileapp.data.remote.requests.PostAPI
 import com.demo.marketplacemobileapp.data.remote.requests.ProductAPI
 import com.demo.marketplacemobileapp.data.repository.PostRepositoryImpl
@@ -11,6 +13,7 @@ import com.demo.marketplacemobileapp.domain.repository.ProductRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
