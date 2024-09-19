@@ -1,6 +1,5 @@
 package com.demo.marketplacemobileapp.presentation.ui.composable.cart
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,18 +26,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.demo.marketplacemobileapp.R
-import com.demo.marketplacemobileapp.domain.model.CartItem
+import coil.compose.AsyncImage
+import com.demo.marketplacemobileapp.config.config
+import com.demo.marketplacemobileapp.data.local.entity.CartItem
+import com.demo.marketplacemobileapp.domain.model.DeliveryOptions
+import com.demo.marketplacemobileapp.presentation.viewModel.cart.CartViewModel
 
 
 @Composable
-fun cartItem(productId: Int, drawableResId: Int) {
-
-    val painter = painterResource(id = drawableResId)
+fun cartItem(cartItem: CartItem, cartViewModel: CartViewModel) {
 
     Row(modifier = Modifier
         .fillMaxWidth()
@@ -51,9 +50,9 @@ fun cartItem(productId: Int, drawableResId: Int) {
         ),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically) {
-        Image(
-            painter = painter,
-            contentDescription = "Some Title",
+        AsyncImage(
+            model = "${config.BASE_URL}/image/${cartItem.image}",
+            contentDescription = cartItem.name,
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(80.dp)
@@ -61,9 +60,10 @@ fun cartItem(productId: Int, drawableResId: Int) {
                 .clip(RoundedCornerShape(16.dp))
 
         )
-        Text(text = "Some Product", modifier = Modifier.padding(2.dp))
-        Text(text = "$133.00", modifier = Modifier.padding(2.dp))
+        Text(text = cartItem.name, modifier = Modifier.padding(2.dp))
+        Text(text = cartItem.price.toString(), modifier = Modifier.padding(2.dp))
         IconButton(onClick = {
+            cartViewModel.deleteCartItem(cartItem)
         }) {
             Icon(
                 imageVector = Icons.Filled.Delete,
@@ -78,44 +78,41 @@ fun cartItem(productId: Int, drawableResId: Int) {
 }
 
 @Composable
-fun deliveryOptions() {
+fun deliveryOptions(cartViewModel: CartViewModel) {
+    val selectedOptionState = cartViewModel.selectedDelivery.value
+    var selectedOption by remember { mutableStateOf(selectedOptionState.delivery) }
 
-    var selectedOption by remember { mutableStateOf(0) }
-
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .padding(10.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp)
+    ) {
         Text(text = "Delivery options", fontSize = 30.sp, modifier = Modifier.padding(20.dp))
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(10.dp)
         ) {
-            deliverySelectionElement(
-                name = "Standard delivery",
-                selected = selectedOption == 0,
-                deliveryDuration = "5-8 business days",
-                price = "$0.00",
-                onClick = { selectedOption = 0 }
-            )
-
-            deliverySelectionElement(
-                name = "Express delivery",
-                selected = selectedOption == 1,
-                deliveryDuration = "2-4 business days",
-                price = "$5.99",
-                onClick = { selectedOption = 1 }
-            )
+            DeliveryOptions.values().forEach { option ->
+                deliverySelectionElement(
+                    deliveryOption = option,
+                    selected = selectedOption == option,
+                    onClick = {
+                        selectedOption = option
+                        cartViewModel.selectDelivery(option)
+                    }
+                )
+            }
         }
     }
 }
 
+
 @Composable
 fun deliverySelectionElement(
-    name: String,
+    deliveryOption: DeliveryOptions,
     selected: Boolean,
-    deliveryDuration: String,
-    price: String,
     onClick: () -> Unit
 ) {
     Row(
@@ -133,34 +130,29 @@ fun deliverySelectionElement(
                 .weight(1f)
                 .padding(start = 8.dp)
         ) {
-            Text(
-                text = name,
-            )
-            Text(
-                text = deliveryDuration,
-                color = Color.Gray
-            )
+            Text(text = deliveryOption.name)
+            Text(text = deliveryOption.deliveryDuration, color = Color.Gray)
         }
+
         Text(
-            text = price,
+            text = "$${deliveryOption.price}",
             modifier = Modifier.padding(start = 8.dp)
         )
     }
 }
 
-
 @Composable
-fun cartItems(productIds: List<Int>) {
+fun cartItems(cartViewModel: CartViewModel) {
     Column {
-        productIds.forEach {id -> cartItem(id, R.drawable.image1) }
+        cartViewModel.state.value.cartItems.forEach {cartItem -> cartItem(cartItem, cartViewModel) }
     }
 }
 
 @Composable
-fun CartItemElement(cartItem: CartItem) {
-    val price = cartItem.price
+fun CartItemElement(name: String, price: Float) {
+    val price = price
     Row {
-        Text(text = cartItem.name, textAlign=TextAlign.Start)
+        Text(text = name, textAlign=TextAlign.Start)
         Text(text = "$$price",
             textAlign = TextAlign.End,
             modifier = Modifier.weight(1f))
@@ -168,9 +160,9 @@ fun CartItemElement(cartItem: CartItem) {
 }
 
 @Composable
-fun cartTotal(cartItems: List<CartItem>) {
+fun cartTotal(cartViewModel: CartViewModel, deliveryOption: DeliveryOptions) {
 
-    var total = 0f
+    var total = remember { mutableStateOf(0f) }
 
     Column (modifier = Modifier
         .fillMaxWidth()
@@ -179,11 +171,12 @@ fun cartTotal(cartItems: List<CartItem>) {
         Column(modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp)) {
-            cartItems.forEach { cartItem ->
-                total += cartItem.price
-                CartItemElement(cartItem)
+            cartViewModel.state.value.cartItems.forEach { cartItem ->
+                total.value += cartItem.price
+                CartItemElement(name = cartItem.name, price = cartItem.price)
             }
-            CartItemElement(cartItem = CartItem(name = "Total", price = total))
+            CartItemElement(name = deliveryOption.name, price = deliveryOption.price)
+            CartItemElement(name = "Total", price = cartViewModel.cartTotal.value)
         }
     }
 }
@@ -191,11 +184,18 @@ fun cartTotal(cartItems: List<CartItem>) {
 @Composable
 fun checkoutButton() {
     Row(
-        modifier = Modifier.fillMaxWidth().height(80.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(80.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Button(onClick = {}, Modifier.fillMaxWidth(0.6f).height(70.dp)) {
+        Button(onClick = {
+
+        },
+            Modifier
+                .fillMaxWidth(0.6f)
+                .height(70.dp)) {
             Text(text = "Checkout", fontSize = 40.sp)
         }
     }

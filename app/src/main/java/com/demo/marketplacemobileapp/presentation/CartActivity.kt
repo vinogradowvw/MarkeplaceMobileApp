@@ -45,20 +45,20 @@ class CartActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Column {
-                Column (modifier = Modifier.fillMaxWidth().weight(1f)) {
+                Column (modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)) {
                     PageHeader("Cart")
                     HorizontalDivider(color = Color.Gray, thickness = 1.dp)
-                    cartItems(listOf(1, 2, 3))
+                    cartItems(cartViewModel = cartViewModel)
                     HorizontalDivider(color = Color.Gray, thickness = 1.dp)
-                    deliveryOptions()
+                    deliveryOptions(cartViewModel=cartViewModel)
 
-                    val cartItems = listOf(
-                        CartItem(name = "Some product product", price = 99.99f),
-                        CartItem(name = "Some product product2", price = 99.99f),
-                        CartItem(name = "Service fee", price = 1.99f),
-                    )
                     HorizontalDivider(color = Color.Gray, thickness = 1.dp)
-                    cartTotal(cartItems)
+                    cartTotal(
+                        cartViewModel = cartViewModel,
+                        deliveryOption = cartViewModel.selectedDelivery.value.delivery
+                    )
                     HorizontalDivider(color = Color.Gray, thickness = 1.dp)
                     checkoutButton()
                 }

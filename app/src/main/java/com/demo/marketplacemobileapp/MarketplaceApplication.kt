@@ -8,10 +8,11 @@ import dagger.hilt.android.HiltAndroidApp
 @HiltAndroidApp
 class MarketplaceApplication: Application() {
     val database: CartItemDatabase by lazy {
+        applicationContext.deleteDatabase("cart-database.db")
         Room.databaseBuilder(
             applicationContext,
             CartItemDatabase::class.java,
-            "contacts.db"
+            "cart-database.db"
         ).build()
     }
 }

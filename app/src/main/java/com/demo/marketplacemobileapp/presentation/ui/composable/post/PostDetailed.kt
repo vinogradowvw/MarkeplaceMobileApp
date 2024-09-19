@@ -1,5 +1,7 @@
 package com.demo.marketplacemobileapp.presentation.ui.composable.post
 
+import android.util.Log
+import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -37,16 +39,21 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import coil.compose.AsyncImage
+import com.demo.marketplacemobileapp.MarketplaceApplication
 import com.demo.marketplacemobileapp.config.config
+import com.demo.marketplacemobileapp.data.local.entity.CartItem
 import com.demo.marketplacemobileapp.domain.model.Post
+import com.demo.marketplacemobileapp.presentation.viewModel.cart.CartViewModel
 
 
 @Composable
-fun PostDetailed(post: Post) {
+fun PostDetailed(post: Post, cartViewModel: CartViewModel) {
     ItemDetailedImages(imageIds = post.images)
     HorizontalDivider(color = Color.Gray, thickness = 1.dp)
-    post.product?.let { ProductInfoDetailed(name = post.name, description = post.description, price = it.price, tagNames = post.tags) }
+    post.product?.let { ProductInfoDetailed(post=post, cartViewModel=cartViewModel) }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -76,7 +83,7 @@ fun ItemDetailedImages(imageIds: List<Long>) {
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun ProductInfoDetailed(name: String, price: Float, description: String, tagNames: List<String>? = null) {
+fun ProductInfoDetailed(post: Post, cartViewModel: CartViewModel) {
     Spacer(modifier = Modifier.height(5.dp))
     Column (
         modifier = Modifier
@@ -85,7 +92,7 @@ fun ProductInfoDetailed(name: String, price: Float, description: String, tagName
     ) {
         Row (modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically) {
-            Text(text = name,
+            Text(text = post.name,
                 textAlign = TextAlign.Start,
                 fontSize = 30.sp,
                 modifier = Modifier.weight(1f),
@@ -98,10 +105,13 @@ fun ProductInfoDetailed(name: String, price: Float, description: String, tagName
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End
             ) {
-                Button(onClick = {},
+                Button(onClick = {
+                    val cartItem = post.product?.let { CartItem(id=post.id, name=post.name, price = it.price, image = post.images[0]) }
+                    cartItem?.let { cartViewModel.addItemToCart(it) }
+                },
                     colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray)
                 ) {
-                    Text(text = "$$price", fontSize = 20.sp, color = Color.Black)
+                    Text(text = "$${post.product?.price}", fontSize = 20.sp, color = Color.Black)
                     Spacer(modifier = Modifier.width(4.dp))
                     Icon(
                         imageVector = Icons.Filled.ShoppingCart,
@@ -115,15 +125,15 @@ fun ProductInfoDetailed(name: String, price: Float, description: String, tagName
         Spacer(modifier = Modifier.height(10.dp))
         HorizontalDivider(color = Color.Gray, thickness = 1.dp)
         Spacer(modifier = Modifier.height(10.dp))
-        Text(text = description, fontSize = 15.sp)
+        Text(text = post.description, fontSize = 15.sp)
         Spacer(modifier = Modifier.height(10.dp))
         HorizontalDivider(color = Color.Gray, thickness = 1.dp)
         Spacer(modifier = Modifier.height(10.dp))
-        if (tagNames != null) {
+        if (post.tags != null) {
             FlowRow(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                tagNames.forEach { tag ->
+                post.tags.forEach { tag ->
                     Text(text = tag,
                         Modifier
                             .clip(RoundedCornerShape(50))

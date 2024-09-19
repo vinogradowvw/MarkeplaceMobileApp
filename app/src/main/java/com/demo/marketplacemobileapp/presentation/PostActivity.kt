@@ -27,9 +27,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.demo.marketplacemobileapp.MarketplaceApplication
 import com.demo.marketplacemobileapp.presentation.ui.composable.common.PageHeader
 import com.demo.marketplacemobileapp.presentation.ui.composable.post.PostDetailed
 import com.demo.marketplacemobileapp.presentation.ui.composable.post.PostList
+import com.demo.marketplacemobileapp.presentation.viewModel.cart.CartViewModel
 import com.demo.marketplacemobileapp.presentation.viewModel.post.PostListViewModel
 import com.demo.marketplacemobileapp.presentation.viewModel.post.PostViewModel
 
@@ -37,6 +41,19 @@ import com.demo.marketplacemobileapp.presentation.viewModel.post.PostViewModel
 class PostActivity : ComponentActivity() {
 
     private val postViewModel: PostViewModel by viewModels()
+
+    private val cartViewModel by viewModels<CartViewModel>(
+        factoryProducer = {
+            object : ViewModelProvider.Factory {
+                @Suppress("UNCHECKED_CAST")
+                override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                    return CartViewModel(
+                        (application as MarketplaceApplication).database.cartItemDAO
+                    ) as T
+                }
+            }
+        }
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,7 +91,7 @@ class PostActivity : ComponentActivity() {
                     if (postState.isLoading) {
                         CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
                     }
-                    postState.post?.let { PostDetailed(it) }
+                    postState.post?.let { PostDetailed(it, cartViewModel=cartViewModel) }
                 }
                 BottomMenu(this@PostActivity)
             }
