@@ -2,12 +2,14 @@ package com.demo.marketplacemobileapp.di
 
 import android.content.Context
 import com.demo.marketplacemobileapp.config.config
-import com.demo.marketplacemobileapp.data.local.dao.CartItemDAO
-import com.demo.marketplacemobileapp.data.local.database.CartItemDatabase
+import retrofit2.converter.scalars.ScalarsConverterFactory
+import com.demo.marketplacemobileapp.data.remote.requests.LoginAPI
 import com.demo.marketplacemobileapp.data.remote.requests.PostAPI
 import com.demo.marketplacemobileapp.data.remote.requests.ProductAPI
+import com.demo.marketplacemobileapp.data.repository.LoginRepositoryImpl
 import com.demo.marketplacemobileapp.data.repository.PostRepositoryImpl
 import com.demo.marketplacemobileapp.data.repository.ProductRepositoryImpl
+import com.demo.marketplacemobileapp.domain.repository.LoginRepository
 import com.demo.marketplacemobileapp.domain.repository.PostRepository
 import com.demo.marketplacemobileapp.domain.repository.ProductRepository
 import dagger.Module
@@ -54,4 +56,22 @@ object AppModule {
     fun provideProductRepository(productAPI: ProductAPI): ProductRepository {
         return ProductRepositoryImpl(productAPI)
     }
+
+    @Provides
+    @Singleton
+    fun provideLoginAPI(): LoginAPI {
+        return Retrofit.Builder()
+            .baseUrl(config.BASE_URL)
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(LoginAPI::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLoginRepository(loginAPI: LoginAPI): LoginRepository {
+        return LoginRepositoryImpl(loginAPI)
+    }
+
 }
