@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -45,22 +46,28 @@ fun LoginFields(loginViewModel: LoginViewModel) {
                 onValueChange = { newText ->
                     username = newText
                 },
-                modifier = Modifier.clip(RoundedCornerShape(16.dp))
+                modifier = Modifier
+                    .clip(RoundedCornerShape(16.dp))
                     .background(Color.LightGray.copy(alpha = 0.1f)),
                 textStyle = TextStyle(
                     fontSize = 20.sp
-                )
+                ),
+                label = { Text("Username") }
             )
+
             TextField(
                 value = password,
                 onValueChange = { newText ->
                     password = newText
                 },
-                modifier = Modifier.clip(RoundedCornerShape(16.dp))
+                modifier = Modifier
+                    .clip(RoundedCornerShape(16.dp))
                     .background(Color.LightGray.copy(alpha = 0.1f)),
                 textStyle = TextStyle(
                     fontSize = 20.sp
-                )
+                ),
+                label = { Text("Password") },
+                visualTransformation = PasswordVisualTransformation()
             )
             Button(onClick = {
 
