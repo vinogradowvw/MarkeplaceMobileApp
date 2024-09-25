@@ -20,18 +20,21 @@ import androidx.compose.ui.Modifier
 import com.demo.marketplacemobileapp.presentation.ui.composable.common.BottomMenu
 import com.demo.marketplacemobileapp.presentation.ui.composable.common.PageHeader
 import com.demo.marketplacemobileapp.presentation.ui.composable.post.PostList
+import com.demo.marketplacemobileapp.presentation.viewModel.login.LoginViewModel
 import com.demo.marketplacemobileapp.presentation.viewModel.post.PostListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ProductSearchActivity : ComponentActivity() {
 
+    private val loginViewModel: LoginViewModel by viewModels()
     private val postListViewModel: PostListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            postListViewModel.getPosts(loginViewModel.token.value.token)
             Column {
                 val postListState = postListViewModel.state.value
                 Column {

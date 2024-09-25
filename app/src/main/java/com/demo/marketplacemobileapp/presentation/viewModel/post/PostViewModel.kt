@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.demo.marketplacemobileapp.common.Resource
 import com.demo.marketplacemobileapp.domain.useCase.post.getPost.GetPostByIdUseCase
 import com.demo.marketplacemobileapp.presentation.state.PostState
+import com.demo.marketplacemobileapp.presentation.viewModel.login.LoginViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -15,12 +16,12 @@ import javax.inject.Inject
 @HiltViewModel
 class PostViewModel @Inject constructor(
     private val getPostByIdUseCase: GetPostByIdUseCase,
-) : ViewModel(){
+) : ViewModel() {
     private val _state = mutableStateOf(PostState())
     val state: State<PostState> = _state
 
-    fun getPostById(id: Long) {
-        getPostByIdUseCase(id).onEach { result ->
+    fun getPostById(id: Long, token: String) {
+        getPostByIdUseCase(id, token).onEach { result ->
             when(result) {
                 is Resource.Success -> {
                     _state.value = PostState(post = result.data)

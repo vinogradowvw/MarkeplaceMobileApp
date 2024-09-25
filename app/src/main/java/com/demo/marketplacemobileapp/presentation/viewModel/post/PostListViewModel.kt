@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.demo.marketplacemobileapp.common.Resource
 import com.demo.marketplacemobileapp.domain.useCase.post.getPostList.GetPostListUseCase
 import com.demo.marketplacemobileapp.presentation.state.PostListState
+import com.demo.marketplacemobileapp.presentation.viewModel.login.LoginViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -14,18 +15,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PostListViewModel @Inject constructor(
-    private val getPostsUseCase: GetPostListUseCase
+    private val getPostsUseCase: GetPostListUseCase,
 ) : ViewModel() {
 
     private val _state = mutableStateOf<PostListState>(PostListState())
     val state : State<PostListState> = _state
 
-    init {
-        getPosts()
-    }
-
-    private fun getPosts() {
-        getPostsUseCase().onEach { result ->
+    fun getPosts(token: String) {
+        getPostsUseCase(token).onEach { result ->
             when(result) {
                 is Resource.Success -> {
                     _state.value = PostListState(posts = result.data?: emptyList())

@@ -16,12 +16,12 @@ class GetPostByIdUseCase @Inject constructor(
     private val postRepository: PostRepository,
     private val productRepository: ProductRepository
 ) {
-    operator fun invoke(id: Long): Flow<Resource<Post>> = flow {
+    operator fun invoke(id: Long, token: String): Flow<Resource<Post>> = flow {
         try {
             emit(Resource.Loading())
-            val postDto = postRepository.getPostById(id)
+            val postDto = postRepository.getPostById(id, token)
             var post = postDto.toEntity()
-            post.product = productRepository.getProductById(postDto.product).toEntity()
+            post.product = productRepository.getProductById(postDto.product, token).toEntity()
             emit(Resource.Success(post))
         } catch (e: HttpException) {
             emit(Resource.Error(message = e.localizedMessage?: "Unexpected HTTP exception"))

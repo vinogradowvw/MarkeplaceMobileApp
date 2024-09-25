@@ -9,8 +9,8 @@ class ProductRepositoryImpl @Inject constructor(
     private val productAPI: ProductAPI
 ) : ProductRepository {
 
-    override suspend fun getProductById(id: Long): ProductDTO {
-        return productAPI.getProductById(id)
+    override suspend fun getProductById(id: Long, token: String): ProductDTO {
+        return productAPI.getProductById(token, id)
     }
 
 }

@@ -21,6 +21,7 @@ import com.demo.marketplacemobileapp.presentation.ui.composable.aboutMe.AboutMeH
 import com.demo.marketplacemobileapp.presentation.ui.composable.post.PostList
 import com.demo.marketplacemobileapp.presentation.ui.composable.common.BottomMenu
 import com.demo.marketplacemobileapp.presentation.ui.composable.common.PageHeader
+import com.demo.marketplacemobileapp.presentation.viewModel.login.LoginViewModel
 import com.demo.marketplacemobileapp.presentation.viewModel.post.PostListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,12 +29,14 @@ import dagger.hilt.android.AndroidEntryPoint
 class AboutMeActivity: ComponentActivity() {
 
     private val postListViewModel: PostListViewModel by viewModels()
+    private val loginViewModel: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         enableEdgeToEdge()
         setContent {
+            postListViewModel.getPosts(loginViewModel.token.value.token)
             val postListState = postListViewModel.state.value
             Column {
                 Column (modifier = Modifier

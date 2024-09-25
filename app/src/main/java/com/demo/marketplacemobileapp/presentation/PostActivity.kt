@@ -34,12 +34,14 @@ import com.demo.marketplacemobileapp.presentation.ui.composable.common.PageHeade
 import com.demo.marketplacemobileapp.presentation.ui.composable.post.PostDetailed
 import com.demo.marketplacemobileapp.presentation.ui.composable.post.PostList
 import com.demo.marketplacemobileapp.presentation.viewModel.cart.CartViewModel
+import com.demo.marketplacemobileapp.presentation.viewModel.login.LoginViewModel
 import com.demo.marketplacemobileapp.presentation.viewModel.post.PostListViewModel
 import com.demo.marketplacemobileapp.presentation.viewModel.post.PostViewModel
 
 @AndroidEntryPoint
 class PostActivity : ComponentActivity() {
 
+    private val loginViewModel: LoginViewModel by viewModels()
     private val postViewModel: PostViewModel by viewModels()
 
     private val cartViewModel by viewModels<CartViewModel>(
@@ -59,7 +61,7 @@ class PostActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         val postId = intent?.getLongExtra("POST_ID", -1L) ?: -1L
-        postViewModel.getPostById(postId)
+        postViewModel.getPostById(postId, loginViewModel.token.value.token)
         setContent {
             val postState = postViewModel.state.value
             Column {

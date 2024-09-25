@@ -16,13 +16,13 @@ class GetPostListUseCase @Inject constructor(
     private val postRepository: PostRepository,
     private val productRepository: ProductRepository
 ) {
-    operator fun invoke(): Flow<Resource<List<Post>>> = flow {
+    operator fun invoke(token: String): Flow<Resource<List<Post>>> = flow {
         try {
             emit(Resource.Loading())
-            val posts: List<Post> = postRepository.getPostList().map {
+            val posts: List<Post> = postRepository.getPostList(token).map {
                 val post = it.toEntity()
                 Log.i("Product", it.product.toString())
-                post.product = productRepository.getProductById(it.product).toEntity()
+                post.product = productRepository.getProductById(it.product, token).toEntity()
                 post
             }
             emit(Resource.Success(posts))

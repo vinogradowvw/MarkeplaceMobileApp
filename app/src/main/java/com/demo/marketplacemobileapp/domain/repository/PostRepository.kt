@@ -4,8 +4,8 @@ import com.demo.marketplacemobileapp.data.remote.dto.PostDTO
 
 interface PostRepository {
 
-    suspend fun getPostList(): List<PostDTO>
+    suspend fun getPostList(token: String): List<PostDTO>
 
-    suspend fun getPostById(id: Long): PostDTO
+    suspend fun getPostById(id: Long, token: String): PostDTO
 
 }

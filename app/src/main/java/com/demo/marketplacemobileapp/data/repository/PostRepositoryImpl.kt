@@ -8,12 +8,12 @@ import javax.inject.Inject
 class PostRepositoryImpl @Inject constructor(
     private val postAPI: PostAPI
 ): PostRepository {
-    override suspend fun getPostList(): List<PostDTO> {
-        return postAPI.getPostList()
+    override suspend fun getPostList(token: String): List<PostDTO> {
+        return postAPI.getPostList(token)
     }
 
-    override suspend fun getPostById(id: Long): PostDTO {
-        return postAPI.getPostById(id)
+    override suspend fun getPostById(id: Long, token: String): PostDTO {
+        return postAPI.getPostById(token, id)
     }
 
 }
