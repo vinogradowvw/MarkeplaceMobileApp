@@ -29,6 +29,7 @@ import com.demo.marketplacemobileapp.presentation.ui.composable.common.PageHeade
 import com.demo.marketplacemobileapp.presentation.ui.composable.home.HomeHeader
 import com.demo.marketplacemobileapp.presentation.ui.composable.home.HomePageMenu
 import com.demo.marketplacemobileapp.presentation.ui.composable.login.LoginFields
+import com.demo.marketplacemobileapp.presentation.ui.composable.login.LoginHeader
 import com.demo.marketplacemobileapp.presentation.ui.composable.post.PostDetailed
 import com.demo.marketplacemobileapp.presentation.viewModel.login.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,6 +44,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val loginState = loginViewModel.token.value
+
+            LoginHeader()
             LoginFields(loginViewModel = loginViewModel)
             if (loginState.error.isNotBlank()) {
                 var showDialog by remember { mutableStateOf(true) }
