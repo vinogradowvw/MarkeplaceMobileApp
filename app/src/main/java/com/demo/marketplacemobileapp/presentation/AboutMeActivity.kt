@@ -33,10 +33,9 @@ class AboutMeActivity: ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        postListViewModel.getPosts(loginViewModel.token.value.token)
         enableEdgeToEdge()
         setContent {
-            postListViewModel.getPosts(loginViewModel.token.value.token)
             val postListState = postListViewModel.state.value
             Column {
                 Column (modifier = Modifier

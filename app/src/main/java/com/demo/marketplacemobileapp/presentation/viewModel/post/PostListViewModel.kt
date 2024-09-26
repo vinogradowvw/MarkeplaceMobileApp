@@ -9,6 +9,7 @@ import com.demo.marketplacemobileapp.domain.useCase.post.getPostList.GetPostList
 import com.demo.marketplacemobileapp.presentation.state.PostListState
 import com.demo.marketplacemobileapp.presentation.viewModel.login.LoginViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -22,18 +23,21 @@ class PostListViewModel @Inject constructor(
     val state : State<PostListState> = _state
 
     fun getPosts(token: String) {
-        getPostsUseCase(token).onEach { result ->
-            when(result) {
-                is Resource.Success -> {
-                    _state.value = PostListState(posts = result.data?: emptyList())
-                }
-                is Resource.Error -> {
-                    _state.value = PostListState(error = result.message?: "Unexpected error")
-                }
-                is Resource.Loading -> {
-                    _state.value = PostListState(isLoading = true)
+        getPostsUseCase(token)
+            .distinctUntilChanged()
+            .onEach { result ->
+                when(result) {
+                    is Resource.Success -> {
+                        _state.value = PostListState(posts = result.data ?: emptyList())
+                    }
+                    is Resource.Error -> {
+                        _state.value = PostListState(error = result.message ?: "Unexpected error")
+                    }
+                    is Resource.Loading -> {
+                        _state.value = PostListState(isLoading = true)
+                    }
                 }
             }
-        }.launchIn(viewModelScope)
+            .launchIn(viewModelScope)
     }
 }

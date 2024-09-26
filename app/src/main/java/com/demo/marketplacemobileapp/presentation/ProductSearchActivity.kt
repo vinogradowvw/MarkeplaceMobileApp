@@ -30,11 +30,12 @@ class ProductSearchActivity : ComponentActivity() {
     private val loginViewModel: LoginViewModel by viewModels()
     private val postListViewModel: PostListViewModel by viewModels()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        postListViewModel.getPosts(loginViewModel.token.value.token)
         enableEdgeToEdge()
         setContent {
-            postListViewModel.getPosts(loginViewModel.token.value.token)
             Column {
                 val postListState = postListViewModel.state.value
                 Column {

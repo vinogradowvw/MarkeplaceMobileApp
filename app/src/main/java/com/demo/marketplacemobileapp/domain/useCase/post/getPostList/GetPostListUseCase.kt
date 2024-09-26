@@ -2,6 +2,7 @@ package com.demo.marketplacemobileapp.domain.useCase.post.getPostList
 
 import android.util.Log
 import com.demo.marketplacemobileapp.common.Resource
+import com.demo.marketplacemobileapp.data.remote.dto.ProductDTO
 import com.demo.marketplacemobileapp.data.remote.dto.toEntity
 import com.demo.marketplacemobileapp.domain.model.Post
 import com.demo.marketplacemobileapp.domain.repository.PostRepository
@@ -19,10 +20,13 @@ class GetPostListUseCase @Inject constructor(
     operator fun invoke(token: String): Flow<Resource<List<Post>>> = flow {
         try {
             emit(Resource.Loading())
+            Log.i("started", "Started")
             val posts: List<Post> = postRepository.getPostList(token).map {
+                val productId = it.product
                 val post = it.toEntity()
-                Log.i("Product", it.product.toString())
-                post.product = productRepository.getProductById(it.product, token).toEntity()
+                val productDTO: ProductDTO = productRepository.getProductById(productId, token)
+                post.product = productDTO.toEntity()
+                Log.i("Post", post.toString())
                 post
             }
             emit(Resource.Success(posts))
